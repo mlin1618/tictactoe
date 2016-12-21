@@ -5,6 +5,7 @@
 import java.util.*;
 
 public class tictactoe {
+
     public static void printBoard(int[][] y){
         String[][] x = new String[3][3];
         for(int i = 0; i < 3; i++){
