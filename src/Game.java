@@ -24,8 +24,15 @@ public class Game {
         }
         return true;
     }
+    //checkMeta: {a,b} - a is 0 or 1 (win or not), b is which player
     public int[] checkMeta(){
-
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 2; j++){
+                if(meta[i][j] == 3){
+                    // return {0, j};
+                }
+            }
+        }
     }
     public int[][] AI(){
 
