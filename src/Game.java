@@ -3,8 +3,31 @@
  */
 public class Game {
     public int[][] board = new int[3][3];
+    public int[][] meta = new int[8][];
     public int moves = 0;
-    public Game(){
+    public int type;
+    public Game(int n){
+        type = n;
+    }
+    public boolean move(int x, int y, boolean c){
+        if (board[y][x] != 0) {
+            return false;
+        }
+        board[y][x] = c?1:-1;
+        meta[y][c?0:1]++;
+        meta[x+3][c?0:1]++;
+        if((x==y)){
+            meta[6][c?0:1]++;
+        }
+        else if(x+y ==3){
+            meta[7][c?0:1]++;
+        }
+        return true;
+    }
+    public int[] checkMeta(){
+
+    }
+    public int[][] AI(){
 
     }
     public void printBoard(){

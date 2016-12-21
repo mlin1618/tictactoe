@@ -5,37 +5,9 @@
 import java.util.*;
 
 public class tictactoe {
-
-    public static void printBoard(int[][] y){
-        String[][] x = new String[3][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                if(y[i][j] == -1){
-                    x[i][j] = "O";
-                }
-                else if(y[i][j] == 1){
-                    x[i][j] = "X";
-                }
-                else{
-                    x[i][j] = " ";
-                }
-            }
-        }
-        System.out.println("    0   1   2");
-        System.out.println("  *************");
-        for(int i = 0 ; i < 3; i++) {
-            System.out.println(i + " * " + x[i][0] + " * " + x[i][1] + " * " + x[i][2] + " *");
-            if(i != 3){
-                System.out.println("  *************");
-            }
-        }
-    }
     public static boolean checkWin(int[][] x){
         for(int i = 0; i < 3; i++){
-            if(x[i][0] == x[i][1] && x[i][1] == x[i][0] && x[i][0] != 0){
-                return true;
-            }
-            if(x[0][i] == x[1][i] && x[1][i] == x[2][i] && x[0][i] != 0){
+            if((x[i][0] == x[i][1] && x[i][1] == x[i][0] && x[i][0] != 0)||(x[0][i] == x[1][i] && x[1][i] == x[2][i] && x[0][i] != 0)){
                 return true;
             }
         }
