@@ -24,7 +24,7 @@ public class Game {
         }
         return true;
     }
-    //checkMeta: if N=0, check for win, if N=1 check for 2 consecutive
+    //checkMeta: if N=0, check for win, if N=1 check for 2 consecutive 
     //returns array {a,b,c,d} a is win or not, b is which player winning or almost win, c is column/diagonal/row, d is which one
     public int checkWin(){
         for(int i = 0; i < 8; i++){
