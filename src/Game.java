@@ -112,39 +112,45 @@ public class Game {
         }
         return -1;
     }
+    public boolean available(int x, int y){
+        if (board[y][x] != 0) {
+            return false;
+        }
+        return true;
+    }
     public boolean AI(boolean c){
         int[] w = wins(board,meta,c);
-        if(w[0] != -1){
+        if(w[0] != -1 && available(w[0],w[1])){
             move(w[0], w[1], c, board,meta);
             return true;
         }
         w = blockWin(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
         w = findFork(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
         w = blockFork(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
         w= findCenter(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
         w=findCorner(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
         w=findSide(c);
-        if(w[0] != -1){
+        if(w[0] != -1&& available(w[0],w[1])){
             move(w[0],w[1],c,board,meta);
             return true;
         }
