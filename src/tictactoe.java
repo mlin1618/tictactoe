@@ -16,9 +16,6 @@ public class tictactoe {
         }
         return false;
     }
-    public static int[] bestMove(int[][] x, boolean t){
-        public static boolean checkRCD(int[][] x, )
-    }
     public static void main(String[] args){
         int[][] board = new int[3][3];
         System.out.println("Select a game type: \n (1) Human vs. Human \n (2) Human vs. Computer \n (3) Computer vs. Computer \n (Enter 1, 2, or 3)");
@@ -26,7 +23,9 @@ public class tictactoe {
             Scanner sc = new Scanner(System.in);
             String x = sc.nextLine();
             if(x.equals("1")){
-                boolean win = false;
+                Game g = new Game(1);
+                g.humanVsHuman();
+                /*boolean win = false;
                 boolean X = true;
                 while(!win){
                     printBoard(board);
@@ -42,9 +41,20 @@ public class tictactoe {
                 String winner = X?"X":"O";
                 printBoard(board);
                 System.out.println(winner + " wins!");
-                break;
+                break;*/
             }
             else if(x.equals("2")){
+                Game g = new Game(2);
+                System.out.println("Would you like to move first? (Y/N)");
+                String yn = sc.nextLine();
+                if(yn.substring(0,1).equalsIgnoreCase("Y")){
+                    g.humanVsComputer(true);
+                }
+                else if(yn.substring(0,1).equalsIgnoreCase("N")){
+                    g.humanVsComputer(false);
+                }
+            }
+           /* else if(x.equals("2")){
                 System.out.println("Would you like to move first? (Y/N)");
                 String yn = sc.nextLine();
                 if(yn.substring(0,1).equalsIgnoreCase("Y")){
@@ -71,10 +81,10 @@ public class tictactoe {
                     }
                 }
 
-            }
+            }*/
             else if(x.equals("3")){
-
-
+                Game g = new Game(3);
+                g.computerVsComputer();
             }
             else{
                 System.out.println("Invalid. Please enter 1, 2, or 3.");

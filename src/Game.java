@@ -4,11 +4,73 @@
 import java.util.*;
 public class Game {
     public int[][] board = new int[3][3];
-    public int[][] meta = new int[8][];//meta: 0,1,2 3 rows, 3,4,5, 3 columns, 6, 7 2 diagonals
+    public int[][] meta = new int[8][2];//meta: 0,1,2 3 rows, 3,4,5, 3 columns, 6, 7 2 diagonals
     public int moves = 0;
     public int type;
     public Game(int n){
         type = n;
+    }
+    public void getMove(boolean c){
+        if(c){
+
+        }
+        else{
+
+        }
+    }
+    public void humanVsHuman(){
+        Scanner sc = new Scanner(System.in);
+        boolean X = true;
+        boolean win = false;
+        for(int i = 0; i < 9; i++){
+            printBoard();
+            System.out.println("Enter the coordinates of your move (i.e. top right is \"2, 0\"), Player " + (X?"X":"O"));
+            int x1 = sc.nextInt(); int y1 = sc.nextInt();
+            move(x1,y1,X,this.board,this.meta);
+            if (this.checkWin()==(X?1:-1)) {
+                printBoard();
+                System.out.println("Player " + (X?"X":"O") + " wins!");
+                win = true;
+                break;
+            }
+            X = !X;
+        }
+        if(!win){
+            System.out.println("It's a draw!");
+        }
+    }
+    public void humanVsComputer(boolean c){
+        Scanner sc = new Scanner(System.in);
+        boolean X = c;
+        boolean win = false;
+        if(c){
+            for(int i = 0; i < 9; i++){
+
+                X = !X;
+            }
+        }
+        else{
+
+        }
+    }
+    public void computerVsComputer(){
+        boolean X = true;
+        boolean win = false;
+        for(int i = 0; i < 9; i++){
+            printBoard();
+            AI(X);
+            if (this.checkWin()==(X?1:-1)) {
+                printBoard();
+                System.out.println("Player " + (X?"X":"O") + " wins!");
+                win = true;
+                break;
+            }
+            X = !X;
+        }
+        if(!win){
+            printBoard();
+            System.out.println("It's a draw!");
+        }
     }
     public boolean move(int x, int y, boolean c, int[][] board1, int[][] meta1){
         if (board1[y][x] != 0) {
@@ -49,7 +111,7 @@ public class Game {
     }
     public boolean AI(boolean c){
         int[] w = wins(board,meta,c);
-        if(w[0] !=-1){
+        if(w[0] != -1){
             move(w[0], w[1], c, board,meta);
             return true;
         }
@@ -88,13 +150,13 @@ public class Game {
     public int[] wins(int[][] board1, int[][] meta1, boolean c){
         int[] wins = new int[]{-1,-1,0};
         for(int i = 0; i < 8; i++){
-            if((meta1[i][0] == 2 && meta1[i][1] == 0 && c) ||(meta1[i][1] == 2 && meta1[i][0] == 0 && !c)){
+            if((meta1[i][0] == 2 && meta1[i][1] == 0 && c)/* ||(meta1[i][1] == 2 && meta1[i][0] == 0 && !c)*/){
                 if(i<=2){
                     wins[0] = i; wins[1] = Arrays.binarySearch(board1[i], 0); wins[2]++;
                 }
                 else if(i<=5){
                     for(int j = 0; j < 3; j++){
-                        if(board1[i][j] == 0) wins[0]=j; wins[1]=i; wins[2]++;
+                        if(board1[j][i-3] == 0) wins[0]=i-3; wins[1]=j; wins[2]++;
 
                     }
                 }
@@ -124,9 +186,17 @@ public class Game {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
                 int[][] tempBoard = new int[3][3];
-                System.arraycopy(board, 0, tempBoard, 0, 3);
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l < 3; l++){
+                        tempBoard[k][l] = board[k][l];
+                    }
+                }
                 int[][] tempMeta = new int[8][2];
-                System.arraycopy(meta,0,tempMeta,0,8);
+                for(int k = 0; k < 8; k++){
+                    for(int l = 0; l < 2; l++){
+                        tempMeta[k][l] = meta[k][l];
+                    }
+                }
                 if(tempBoard[i][j] == 0){
                     move(j,i,c,tempBoard,tempMeta);
                     int count = wins(tempBoard, tempMeta,c)[2];
@@ -167,7 +237,7 @@ public class Game {
         int x = c?1:-1;
         int[][] co = {{0,0}, {0,2}, {2,2}, {2,0}};
         for(int i = 0; i < 4; i++){
-            if(board[co[i][0]][co[i][1]] == -x){
+            if(board[co[i][0]][co[i][1]] == -x && board[co[(i+2)%4][0]][co[(i+2)%4][1]] == 0){
                 return new int[]{co[(i+2)%4][1], co[(i+2)%4][0]};
             }
         }
