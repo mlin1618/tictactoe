@@ -10,14 +10,6 @@ public class Game {
     public Game(int n){
         type = n;
     }
-    public void getMove(boolean c){
-        if(c){
-
-        }
-        else{
-
-        }
-    }
     public void humanVsHuman(){
         Scanner sc = new Scanner(System.in);
         boolean X = true;
@@ -43,14 +35,25 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         boolean X = c;
         boolean win = false;
-        if(c){
-            for(int i = 0; i < 9; i++){
-
-                X = !X;
+        for(int i = 0; i < 9; i++){
+            printBoard();
+            if(X){
+            System.out.println("Enter the coordinates of your move (i.e. top right is \"2, 0\"), Player " + (X?"X":"O"));
+            int x1 = sc.nextInt(); int y1 = sc.nextInt();
+            move(x1,y1,X,this.board,this.meta);}
+            else{
+                AI(X);
             }
+            if (this.checkWin()==(X?1:-1)) {
+                printBoard();
+                System.out.println("Player " + (X?"X":"O") + " wins!");
+                win = true;
+                break;
+            }
+            X = !X;
         }
-        else{
-
+        if(!win){
+            System.out.println("It's a draw!");
         }
     }
     public void computerVsComputer(){
