@@ -134,11 +134,11 @@ public class Game {
         }
     }
     public boolean AI(boolean c){
-        System.out.println(Arrays.deepToString(meta));
+        //System.out.println(Arrays.deepToString(meta));
         int[] w = wins(board,meta,c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t1");
+                //System.out.println("\t\t\t\t1");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -146,7 +146,7 @@ public class Game {
         w = blockWin(c);
         if(w[0] != -1) {
             if (available(w[0], w[1])) {
-                System.out.println("\t\t\t\t2");
+                //System.out.println("\t\t\t\t2");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -154,7 +154,7 @@ public class Game {
         w = findFork(c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t3");
+                //System.out.println("\t\t\t\t3");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -162,7 +162,7 @@ public class Game {
         w = blockFork(c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t4");
+                //System.out.println("\t\t\t\t4");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -170,7 +170,7 @@ public class Game {
         w= findCenter(c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t5");
+                //System.out.println("\t\t\t\t5");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -178,7 +178,7 @@ public class Game {
         w=findCorner(c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t6");
+                //System.out.println("\t\t\t\t6");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
@@ -186,12 +186,12 @@ public class Game {
         w=findSide(c);
         if(w[0] != -1){
             if(available(w[0],w[1])) {
-                System.out.println("\t\t\t\t7");
+                //System.out.println("\t\t\t\t7");
                 move(w[0], w[1], c, board, meta);
                 return true;
             }
         }
-        System.out.println("RIP");
+        //System.out.println("RIP");
         return false;
     }
     public int[] wins(int[][] board1, int[][] meta1, boolean c){
