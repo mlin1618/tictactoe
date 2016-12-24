@@ -199,7 +199,10 @@ public class Game {
         for(int i = 0; i < 8; i++){
             if((meta1[i][0] == 2 && meta1[i][1] == 0 && c) ||(meta1[i][1] == 2 && meta1[i][0] == 0 && !c)){
                 if(i<=2){
-                    wins[0] = Arrays.binarySearch(board1[i], 0); wins[1] = i; wins[2]++;
+                    for(int j = 0; j < 3; j++){
+                        if(board1[i][j] == 0){wins[0] = j; wins[1] = i; wins[2]++;}
+                    }
+                    //wins[0] = Arrays.binarySearch(board1[i], 0); wins[1] = i; wins[2]++;
                 }
                 else if(i<=5){
                     for(int j = 0; j < 3; j++){
@@ -226,6 +229,28 @@ public class Game {
             return a;
         }
         return new int[]{-1};
+    }
+    public boolean isFork(int i, int j, boolean c){
+        int[][] tempBoard = new int[3][3];
+        for(int k = 0; k < 3; k++){
+            for(int l = 0; l < 3; l++){
+                tempBoard[k][l] = board[k][l];
+            }
+        }
+        int[][] tempMeta = new int[8][2];
+        for(int k = 0; k < 8; k++){
+            for(int l = 0; l < 2; l++){
+                tempMeta[k][l] = meta[k][l];
+            }
+        }
+        if(tempBoard[i][j] == 0){
+            move(j,i,c,tempBoard,tempMeta);
+            int count = wins(tempBoard, tempMeta,c)[2];
+            if(count > 1){
+                return true;
+            }
+        }
+        return false;
     }
     public int[] findFork(boolean c){
         int x = c?1:-1;
@@ -267,10 +292,20 @@ public class Game {
         return new int[]{-1};
     }
     public int[] blockFork(boolean c){
-        int[] a = findFork(!c);
+        for(int i = 0; i <3; i++){
+            for(int j = 0; j < 3; j++){
+                if (isFork(i, j, !c)) {
+                    if(meta[i][c?0:1] == 1)
+                        return new int[]{j, i};
+                    else if(meta[j+3][c?0:1] == 1)
+                        return new int[]{j, i};
+                }
+            }
+        }
+        /*int[] a = findFork(!c);
         if(a[0] != -1){
             return a;
-        }
+        }*/
         return new int[]{-1};
     }
     public int[] findCenter(boolean c){
@@ -290,32 +325,32 @@ public class Game {
         Random r = new Random();
         ArrayList<Integer> a = new ArrayList<Integer>(Arrays.asList(0,1,2,3));
         while(a.size()>0){
-            int i = r.nextInt(a.size());
-            int k = a.get(i);
+            int j = r.nextInt(a.size());
+            int i = a.get(j);
             if(board[co[i][0]][co[i][1]] == 0){
                 return new int[]{co[i][1], co[i][0]};
             }
-            a.remove(i);
+            a.remove(j);
         }
         return new int[]{-1};
     }
     public int[] findSide(boolean c){
         int[][] co = {{0,1},{1,0},{1,2},{2,1}};
-        /*Random r = new Random();
+        Random r = new Random();
         ArrayList<Integer> a = new ArrayList<Integer>(Arrays.asList(0,1,2,3));
         while(a.size()>0){
-            int i = r.nextInt(a.size());
-            int k = a.get(i);
+            int j = r.nextInt(a.size());
+            int i = a.get(j);
             if(board[co[i][0]][co[i][1]] == 0){
                 return new int[]{co[i][1], co[i][0]};
             }
-            a.remove(i);
-        }*/
-        for(int i = 0; i < 4; i++){
-            if(board[co[i][0]][co[i][1]] == 0){
-                return new int[]{co[i][1], co[i][0]};
-            }
+            a.remove(j);
         }
+        /*for(int i = 0; i < 4; i++){
+            if(board[co[i][0]][co[i][1]] == 0){
+                return new int[]{co[i][1], co[i][0]};
+            }
+        }*/
         return new int[]{-1};
     }
     public void printBoard(){
