@@ -18,6 +18,10 @@ public class Game {
             printBoard();
             System.out.println("Enter the coordinates of your move (i.e. top right is \"2, 0\"), Player " + (X?"X":"O"));
             int x1 = sc.nextInt(); int y1 = sc.nextInt();
+            while(!available(x1,y1)){
+                System.out.println("Invalid move. Try again.");
+                x1 = sc.nextInt(); y1 = sc.nextInt();
+            }
             move(x1,y1,X,this.board,this.meta);
             if (this.checkWin()==(X?1:-1)) {
                 printBoard();
@@ -38,9 +42,14 @@ public class Game {
         for(int i = 0; i < 9; i++){
             printBoard();
             if(X){
-            System.out.println("Enter the coordinates of your move (i.e. top right is \"2, 0\"), Player " + (X?"X":"O"));
-            int x1 = sc.nextInt(); int y1 = sc.nextInt();
-            move(x1,y1,X,this.board,this.meta);}
+                System.out.println("Enter the coordinates of your move (i.e. top right is \"2, 0\"), Player " + (X?"X":"O"));
+                int x1 = sc.nextInt(); int y1 = sc.nextInt();
+                while(!available(x1,y1)){
+                    System.out.println("Invalid move. Try again.");
+                    x1 = sc.nextInt(); y1 = sc.nextInt();
+                }
+                move(x1,y1,X,this.board,this.meta);
+            }
             else{
                 AI(X);
             }
@@ -53,6 +62,7 @@ public class Game {
             X = !X;
         }
         if(!win){
+            printBoard();
             System.out.println("It's a draw!");
         }
     }
@@ -113,10 +123,15 @@ public class Game {
         return -1;
     }
     public boolean available(int x, int y){
-        if (board[y][x] != 0) {
+        if(!(String.valueOf(x).equals("0") || String.valueOf(x).equals("1") || String.valueOf(x).equals("2"))|| !(String.valueOf(y).equals("0")|| String.valueOf(y).equals("1")|| String.valueOf(y).equals("2"))) {
             return false;
         }
-        return true;
+        if(board[y][x] != 0) {
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     public boolean AI(boolean c){
         System.out.println(Arrays.deepToString(meta));
@@ -176,6 +191,7 @@ public class Game {
                 return true;
             }
         }
+        System.out.println("RIP");
         return false;
     }
     public int[] wins(int[][] board1, int[][] meta1, boolean c){
@@ -285,7 +301,7 @@ public class Game {
     }
     public int[] findSide(boolean c){
         int[][] co = {{0,1},{1,0},{1,2},{2,1}};
-        Random r = new Random();
+        /*Random r = new Random();
         ArrayList<Integer> a = new ArrayList<Integer>(Arrays.asList(0,1,2,3));
         while(a.size()>0){
             int i = r.nextInt(a.size());
@@ -294,12 +310,12 @@ public class Game {
                 return new int[]{co[i][1], co[i][0]};
             }
             a.remove(i);
-        }
-        /*for(int i = 0; i < 4; i++){
+        }*/
+        for(int i = 0; i < 4; i++){
             if(board[co[i][0]][co[i][1]] == 0){
                 return new int[]{co[i][1], co[i][0]};
             }
-        }*/
+        }
         return new int[]{-1};
     }
     public void printBoard(){
