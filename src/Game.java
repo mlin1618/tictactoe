@@ -85,7 +85,7 @@ public class Game {
         if((x==y)){
             meta1[6][c?0:1]++;
         }
-        else if(x+y ==3){
+        if(x+y ==2){
             meta1[7][c?0:1]++;
         }
         return true;
@@ -119,64 +119,85 @@ public class Game {
         return true;
     }
     public boolean AI(boolean c){
+        System.out.println(Arrays.deepToString(meta));
         int[] w = wins(board,meta,c);
-        if(w[0] != -1 && available(w[0],w[1])){
-            move(w[0], w[1], c, board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t1");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w = blockWin(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1) {
+            if (available(w[0], w[1])) {
+                System.out.println("\t\t\t\t2");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w = findFork(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t3");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w = blockFork(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t4");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w= findCenter(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t5");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w=findCorner(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t6");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         w=findSide(c);
-        if(w[0] != -1&& available(w[0],w[1])){
-            move(w[0],w[1],c,board,meta);
-            return true;
+        if(w[0] != -1){
+            if(available(w[0],w[1])) {
+                System.out.println("\t\t\t\t7");
+                move(w[0], w[1], c, board, meta);
+                return true;
+            }
         }
         return false;
     }
     public int[] wins(int[][] board1, int[][] meta1, boolean c){
         int[] wins = new int[]{-1,-1,0};
         for(int i = 0; i < 8; i++){
-            if((meta1[i][0] == 2 && meta1[i][1] == 0 && c)/* ||(meta1[i][1] == 2 && meta1[i][0] == 0 && !c)*/){
+            if((meta1[i][0] == 2 && meta1[i][1] == 0 && c) ||(meta1[i][1] == 2 && meta1[i][0] == 0 && !c)){
                 if(i<=2){
-                    wins[0] = i; wins[1] = Arrays.binarySearch(board1[i], 0); wins[2]++;
+                    wins[0] = Arrays.binarySearch(board1[i], 0); wins[1] = i; wins[2]++;
                 }
                 else if(i<=5){
                     for(int j = 0; j < 3; j++){
-                        if(board1[j][i-3] == 0) wins[0]=i-3; wins[1]=j; wins[2]++;
-
+                        if(board1[j][i-3] == 0) {wins[0]=i-3; wins[1]=j; wins[2]++;}
                     }
                 }
                 else if(i==6){
                     for(int j = 0; j < 3; j++){
-                        if(board1[j][j] ==0) wins[0]=j;wins[1]=j;wins[2]++;
+                        if(board1[j][j] ==0) {wins[0]=j;wins[1]=j;wins[2]++;}
                     }
                 }
                 else{
                     for(int j = 0; j < 3; j++){
-                        if(board1[j][2-j] == 0) wins[0] = 2-j; wins[1] = j; wins[2]++;
+                        if(board1[j][2-j] == 0) {wins[0] = 2-j; wins[1] = j; wins[2]++;}
                     }
                 }
             }
@@ -250,20 +271,35 @@ public class Game {
                 return new int[]{co[(i+2)%4][1], co[(i+2)%4][0]};
             }
         }
-        for(int i = 0; i < 4; i++){
+        Random r = new Random();
+        ArrayList<Integer> a = new ArrayList<Integer>(Arrays.asList(0,1,2,3));
+        while(a.size()>0){
+            int i = r.nextInt(a.size());
+            int k = a.get(i);
             if(board[co[i][0]][co[i][1]] == 0){
                 return new int[]{co[i][1], co[i][0]};
             }
+            a.remove(i);
         }
         return new int[]{-1};
     }
     public int[] findSide(boolean c){
         int[][] co = {{0,1},{1,0},{1,2},{2,1}};
-        for(int i = 0; i < 4; i++){
+        Random r = new Random();
+        ArrayList<Integer> a = new ArrayList<Integer>(Arrays.asList(0,1,2,3));
+        while(a.size()>0){
+            int i = r.nextInt(a.size());
+            int k = a.get(i);
             if(board[co[i][0]][co[i][1]] == 0){
                 return new int[]{co[i][1], co[i][0]};
             }
+            a.remove(i);
         }
+        /*for(int i = 0; i < 4; i++){
+            if(board[co[i][0]][co[i][1]] == 0){
+                return new int[]{co[i][1], co[i][0]};
+            }
+        }*/
         return new int[]{-1};
     }
     public void printBoard(){
